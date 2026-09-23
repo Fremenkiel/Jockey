@@ -1,0 +1,26 @@
+<idea-plugin>
+    <id>jockey</id>
+    <name>Jockey</name>
+    <vendor>Fremenkiel</vendor>
+    <description><![CDATA[
+    Lets AI agents and scripts list, start, stop and restart the .NET projects of an open solution.
+    <ul>
+      <li>MCP tools on the IDE's built-in MCP server (dotnet_list_projects, dotnet_start_project, ...).</li>
+      <li>A local HTTP API at <code>http://127.0.0.1:63342/api/jockey/</code>.</li>
+    </ul>
+    Runs go through Rider run configurations, so they build first and show up in the Run tool window.
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.rider</depends>
+    <depends optional="true" config-file="jockey-mcp.xml">com.intellij.mcpServer</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <httpRequestHandler implementation="jockey.http.JockeyRestService"/>
+    </extensions>
+
+    <projectListeners>
+        <listener class="jockey.core.RunStateListener"
+                  topic="com.intellij.execution.ExecutionListener"/>
+    </projectListeners>
+</idea-plugin>
